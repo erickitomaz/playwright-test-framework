@@ -1,7 +1,7 @@
 import type { APIRequestContext } from "@playwright/test";
 import { apiUrl } from "@support/config";
 import type { Article } from "@support/models";
-import { authorizeWith, readJson } from "@support/lib";
+import { authHeader, readJson } from "@support/lib";
 
 export interface CreateArticleResponse {
   slug: string;
@@ -19,7 +19,7 @@ export async function createArticle(
 ): Promise<CreateArticleResponse> {
   const response = await request.post(`${apiUrl}/articles`, {
     data: { article },
-    headers: authorizeWith({ token }),
+    headers: authHeader({ token }),
   });
 
   const body = await readJson(response, "create article");
