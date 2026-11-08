@@ -1,6 +1,6 @@
 import type { APIRequestContext } from '@playwright/test';
 import { apiUrl } from '@support/config';
-import type { Credentials, User } from '@support/models';
+import type { User } from '@support/models';
 import { readJson } from '@support/lib';
 
 export interface CreateUserResponse {
@@ -18,6 +18,11 @@ export async function createUser(request: APIRequestContext, user: User): Promis
   return body.user;
 }
 
+export interface LoginUserRequest {
+  email: string;
+  password: string;
+}
+
 export interface LoginUserResponse {
   id: number;
   username: string;
@@ -27,7 +32,7 @@ export interface LoginUserResponse {
   token: string;
 }
 
-export async function loginUser(request: APIRequestContext, credentials: Credentials): Promise<LoginUserResponse> {
+export async function loginUser(request: APIRequestContext, credentials: LoginUserRequest): Promise<LoginUserResponse> {
   const response = await request.post(`${apiUrl}/users/login`, { data: { user: { email: credentials.email, password: credentials.password } } });
   const body = await readJson(response, 'login user');
   return body.user;
