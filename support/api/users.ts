@@ -24,7 +24,6 @@ export interface LoginUserRequest {
 }
 
 export interface LoginUserResponse {
-  id: number;
   username: string;
   email: string;
   bio: string | null;
