@@ -1,19 +1,15 @@
-import { test, expect } from "@playwright/test";
 import {
   buildArticle,
-  buildUser,
   createArticle,
-  createUser,
+  expect,
   getArticleBySlug,
+  test,
 } from "@support";
 
-test("a created article can be read by its slug", async ({ request }) => {
-  const newAuthor = buildUser();
-  const createdAuthor = await createUser(request, newAuthor);
-
+test("a created article can be read by its slug", async ({ request, currentUser }) => {
   const newArticle = buildArticle();
-  const createdArticle = await createArticle(request, createdAuthor.token, newArticle);
 
+  const createdArticle = await createArticle(request, currentUser.token, newArticle);
   const fetchedArticle = await getArticleBySlug(request, createdArticle.slug);
 
   expect(fetchedArticle).toMatchObject({
@@ -22,5 +18,5 @@ test("a created article can be read by its slug", async ({ request }) => {
     body: newArticle.body,
     tagList: newArticle.tagList,
   });
-  expect(fetchedArticle.author.username).toBe(newAuthor.username);
+  expect(fetchedArticle.author.username).toBe(currentUser.username);
 });
