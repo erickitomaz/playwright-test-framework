@@ -1,10 +1,6 @@
 import { test, expect, buildArticle, getArticleBySlug } from "@support";
 
-test("a user can publish an article from the editor", async ({
-  app,
-  request,
-  currentUser,
-}) => {
+test("a user can publish an article from the editor", async ({ app, request, currentUser }) => {
   const newArticle = buildArticle();
   const editorPage = app.getEditorPage();
 

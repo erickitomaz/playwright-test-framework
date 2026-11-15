@@ -1,2 +1,2 @@
-export * from '@support/models/user';
-export * from '@support/models/article';
+export * from "@support/models/user";
+export * from "@support/models/article";
