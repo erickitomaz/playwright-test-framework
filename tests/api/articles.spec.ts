@@ -1,10 +1,4 @@
-import {
-  buildArticle,
-  createArticle,
-  expect,
-  getArticleBySlug,
-  test,
-} from "@support";
+import { buildArticle, createArticle, expect, getArticleBySlug, test } from "@support";
 
 test("a created article can be read by its slug", async ({ request, currentUser }) => {
   const newArticle = buildArticle();

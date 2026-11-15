@@ -1,1 +1,1 @@
-export * from '@support/fixtures/default';
+export * from "@support/fixtures/default";
