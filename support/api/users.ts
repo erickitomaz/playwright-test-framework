@@ -1,4 +1,4 @@
-import type { APIRequestContext } from "@playwright/test";
+import type { APIRequestContext, APIResponse } from "@playwright/test";
 import { apiUrl } from "@support/config";
 import type { User } from "@support/models";
 import { readJson } from "@support/lib";
@@ -34,13 +34,20 @@ export interface LoginUserResponse {
   token: string;
 }
 
+export async function attemptLogin(
+  request: APIRequestContext,
+  credentials: LoginUserRequest,
+): Promise<APIResponse> {
+  return request.post(`${apiUrl}/users/login`, {
+    data: { user: { email: credentials.email, password: credentials.password } },
+  });
+}
+
 export async function loginUser(
   request: APIRequestContext,
   credentials: LoginUserRequest,
 ): Promise<LoginUserResponse> {
-  const response = await request.post(`${apiUrl}/users/login`, {
-    data: { user: { email: credentials.email, password: credentials.password } },
-  });
+  const response = await attemptLogin(request, credentials);
   const body = await readJson(response, "login user");
   return body.user;
 }
