@@ -3,6 +3,7 @@ import type { Page, Response } from "@playwright/test";
 export interface ResponseMatch {
   method: "GET" | "POST" | "PUT" | "DELETE";
   path: string;
+  status?: number;
 }
 
 export class HttpContext {
@@ -30,7 +31,9 @@ export class HttpContext {
       action(),
     ]);
 
-    if (!response.ok()) {
+    const hasExpectedStatus =
+      match.status === undefined ? response.ok() : response.status() === match.status;
+    if (!hasExpectedStatus) {
       throw new Error(
         `${match.method} ${match.path} failed: ${response.status()} ${await response.text()}`,
       );
